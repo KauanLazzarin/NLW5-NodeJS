@@ -8,7 +8,7 @@ interface ISettingsCreate {
 
 
 class SettingsService {
-    async create ({chat, username} : ISettingsCreate) {
+    async create ({chat, username}: ISettingsCreate) {
         /* 
             Primeiro é preciso referenciar o repositório,
             então pegar os dados que são recebidos pelo service
@@ -17,7 +17,7 @@ class SettingsService {
         const settingsRepository = getCustomRepository(SettingsRepository);
 
         // Verificando se já existe usuário com o nome cadastrado
-        const hasAlreadyUser = settingsRepository.findOne({
+        const hasAlreadyUser = await settingsRepository.findOne({
             username
         });
 
@@ -41,13 +41,8 @@ class SettingsService {
             função async / await
         */
 
-        try { 
-            await settingsRepository.save(settings);
-            return settings;
-        } catch (error) {
-            console.log(error);
-            return;
-        }
+        await settingsRepository.save(settings);
+        return settings;
     };
 };
 
